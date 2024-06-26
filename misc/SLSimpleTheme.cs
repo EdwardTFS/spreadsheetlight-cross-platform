@@ -545,7 +545,23 @@ internal class SLSimpleTheme
     internal void CalculateRowColumnInfo()
     {
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) == false)
+        {
+            //non windows default values
+            int i;
+            int iMaxDigitWidth = 10;
+            listColumnStepSize = new List<double>();
+            double fStepInterval = 0;
+            double fStepSize = 0.0;
+            for (i = 0; i < iMaxDigitWidth; ++i)
+            {
+                fStepInterval = (double)i / (double)(iMaxDigitWidth - 1);
+                fStepSize = Math.Truncate(256.0 * fStepInterval) / 256.0;
+                listColumnStepSize.Add(fStepSize);
+            }
+
             return;
+        }
+            
 
 #pragma warning disable CA1416
         System.Drawing.Font usablefont = SLTool.GetUsableNormalFont(this.MinorLatinFont, SLConstants.DefaultFontSize, System.Drawing.FontStyle.Regular, this.ThrowExceptionsIfAny);
